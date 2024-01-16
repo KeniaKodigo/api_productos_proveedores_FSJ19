@@ -137,4 +137,26 @@ class ProveedoresController extends Controller
 
         //Proveedores::where('id','=',$id)->delete(); (otra forma de eliminar)
     }
+
+    //metodo para logear al proveedor y generar el token
+    public function login(Request $request){
+        $credentials = $request->validate([
+            'correo' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        //generar una consulta sql (obtener el proveedor donde el correo sea igual ? y password igual ? )
+        //select * from proveedores where correo = ? AND password = ?
+
+        $proveedor = Proveedores::where('correo','=', $request->correo)->where('password','=',$request->password)->first(); //true / false
+
+        if ($proveedor) {
+            //existe el proveedor y voy a generar el token
+
+            /*$token = $user->createToken('token-name')->plainTextToken;
+            return response()->json(['token' => $token], 200);*/
+        } else {
+            return response()->json(['message' => 'Credenciales Invalidas'], 401);
+        }
+    }
 }

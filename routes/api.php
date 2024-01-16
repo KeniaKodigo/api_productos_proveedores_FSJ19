@@ -30,5 +30,6 @@ Route::put('/actualizar_proveedor/{id}',[ProveedoresController::class, 'update']
 Route::delete('/eliminar_proveedor/{id}',[ProveedoresController::class, 'destroy']);
 
 Route::get('/lista_productos',[ProductosController::class, 'index']);
+Route::post('/registrar_producto', [ProductosController::class, 'store']);
 
-
+Route::get('/busqueda_producto/{busqueda}', [ProductosController::class, 'busquedaByNombre']);
