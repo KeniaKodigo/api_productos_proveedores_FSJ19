@@ -152,9 +152,9 @@ class ProveedoresController extends Controller
 
         if ($proveedor) {
             //existe el proveedor y voy a generar el token
+            $token = $proveedor->createToken('token-name')->plainTextToken;
+            return response()->json(['token' => $token], 200);
 
-            /*$token = $user->createToken('token-name')->plainTextToken;
-            return response()->json(['token' => $token], 200);*/
         } else {
             return response()->json(['message' => 'Credenciales Invalidas'], 401);
         }

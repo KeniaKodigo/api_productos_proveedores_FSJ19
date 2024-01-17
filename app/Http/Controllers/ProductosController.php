@@ -79,7 +79,7 @@ class ProductosController extends Controller
                 //validar si existe un archivo (imagen)
                 if($request->hasFile('imagen')){ //true
                     //guardar la imagen
-                    $imagen = $request->file('imagen');
+                    $imagen = $request->file('imagen'); //
                     //formateamos el nombre la imagen
                     //Str::slug("computadora-ASUS.svg")
                     $nombre_imagen = Str::slug($request->post('nombre')).".".$imagen->guessExtension();
@@ -139,6 +139,22 @@ class ProductosController extends Controller
             "status" => 400,
             "detalle" => "No coincide ningun producto con la busqueda"
         ]);
+    }
+
+    
+    public function precioProducto(){
+        //mande todos los productos que tengan el precio mayor a $100 incluyendo el nombre y la direccion del proveedor
+
+        //SELECT productos.*, proveedores.nombre, proveedores.direccion FROM productos INNER JOIN proveedores ON productos.id_proveedor = proveedores.id WHERE productos.precio > 100
+
+        $productos = Productos::join('proveedores','productos.id_proveedor','=', 'proveedores.id')->select('productos.*', 'proveedores.nombre as proveedor', 'proveedores.direccion')->where('productos.precio', '>', 100)->get();
+
+        return response()->json(
+            [
+                "status" => 200,
+                "detalle" => $productos
+            ]
+        );
     }
 
 }
